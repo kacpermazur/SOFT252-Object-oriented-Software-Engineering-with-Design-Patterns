@@ -25,4 +25,37 @@ public class BankAccount {
     {
         balance += amount;
     }
+    
+    public boolean withdrawMoney(int amount)
+    {
+        if((balance+ overdraft) < amount)
+        {
+            return false;
+        }
+        else
+        {
+            balance -= amount;
+            return true;
+        }
+    }
+    
+    public double getBalance()
+    {
+        return balance;
+    }
+    
+    public String getHolder()
+    {
+        return holder;
+    }
+    
+    public double getOverdraft()
+    {
+        return overdraft;
+    }
+    
+    public void setOverdraft(double overdraft)
+    {
+        this.overdraft = overdraft;
+    }
 }
