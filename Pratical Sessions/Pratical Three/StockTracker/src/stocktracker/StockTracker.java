@@ -5,8 +5,10 @@
  */
 package stocktracker;
 
+import stocktracker.stockdatamodel.AnObserver;
 import stocktracker.stockdatamodel.PhysicalStockItem;
 import stocktracker.stockdatamodel.ServiceStockItem;
+import stocktracker.stockdatamodel.StockItem;
 
 /**
  *
@@ -17,20 +19,21 @@ public class StockTracker {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) 
+    {
+       StockItem objTestItem1 = new PhysicalStockItem("Keemstar");
+       StockItem objTestItem2 = new ServiceStockItem("Dank");
        
-        PhysicalStockItem objPhysicalitem = new PhysicalStockItem("Snuff; A Diskworld book by Terry Prachett", 100);
-        ServiceStockItem objVirtualItem = new ServiceStockItem("Ya Yeet");
-        
-        String strMessage = objPhysicalitem.getName()
-                + ", is in stock = " + objPhysicalitem.isInStock()
-                + ", qty in stock: " + objPhysicalitem.getQuantityInStock();
-        System.out.println(strMessage);
-        
-        strMessage = objVirtualItem.getName()
-                + ", is in stock = " + objVirtualItem.isInStock()
-                + ", qty in stock: " + objVirtualItem.getQuantityInStock();
-        System.out.println(strMessage);
+       AnObserver aob = new AnObserver();
+       
+       objTestItem1.registerObserver(aob);
+       objTestItem2.registerObserver(aob);
+       
+       System.out.println("Chaning quantity opf physical stock");
+       objTestItem1.setQuantityInStock(10);
+       
+       System.out.println("Chaning quantity opf physical stock");
+       objTestItem2.setSellingPrice(20.22);
     }
     
 }

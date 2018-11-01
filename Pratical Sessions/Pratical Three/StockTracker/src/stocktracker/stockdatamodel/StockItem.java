@@ -5,16 +5,87 @@
  */
 package stocktracker.stockdatamodel;
 
+import java.util.ArrayList;
+import utilites.IObserver;
+import utilites.ISubject;
+
 /**
  *
  * @author kmazur
  */
-public class StockItem {
+public abstract class StockItem implements ISubject {
     protected String name = "UNKNOW";
     protected Integer quantityInStock = 0;
     protected Double sellingPrice = 1000000.00;
     protected Double costPrice = 1000000.00;
+    
+    private ArrayList<IObserver> observers = null;
+   
+    public abstract StockType getItemType();
+    
+    @Override
+    public Boolean registerObserver(IObserver o)
+    {
+        Boolean blnAdded = false;
+        
+        if(o != null)
+        {
+            if(this.observers == null)
+            {
+                this.observers = new ArrayList<>();
+            }
+            blnAdded = this.observers.add(o);
 
+        }
+        
+        return blnAdded;
+    }
+    
+    @Override
+    public Boolean removeObserver(IObserver o)
+    {
+        Boolean blnRemoved = false;
+        
+        if(o != null)
+        {
+            if(this.observers != null)
+            {
+                blnRemoved = this.observers.remove(o);
+            }
+            
+        }
+            
+        return blnRemoved;
+    }
+    
+    @Override
+    public void notifyObservers()
+    {
+        if(this.observers != null && this.observers.size() > 0)
+        {
+            for (IObserver currentObsever : this.observers)
+            {
+                currentObsever.update();
+            }
+        }
+    }
+    
+    public StockItem()
+    {
+        
+    }
+    
+    public StockItem(String name)
+    {
+        this.name = name;
+    }
+    
+    public StockItem(String name, Integer qty)
+    {
+        this.name = name;
+        this.quantityInStock = qty;
+    }
+       
     public String getName() {
         return name;
     }
@@ -23,6 +94,7 @@ public class StockItem {
         if(name != null && !name.isEmpty())
         {
             this.name = name;
+            notifyObservers();
         }
     }
 
